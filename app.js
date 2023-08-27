@@ -1,21 +1,24 @@
-// npm - global command, comes with node
-// npm --version
+const express = require('express')
+const app = express()
+const logger = require('./logger')
+// req => middleware res
+app.use('/api',logger)
+//Will apply for every route which starts with /api
+app.use(logger) //Will Invoke Middleware for any route, Always use before invoking
 
-// local dependency - use it only in this particular project
-// npm i <packageName>
+app.get('/',(req,res)=>{
+  res.send('Home')
+})
+app.get('/about',(req,res)=>{
+  res.send('Abouts')
+})
+app.get('/api/products',(req,res)=>{
+  res.send('Products')
+})
+app.get('/api/items',(req,res)=>{
+  res.send('Items')
+})
 
-// global dependency - use it in any project
-// npm i -g <packageName>
-// sudo npm i -g <packageName> (mac)
-
-//package.json - manifest file (stores important info about project/package)
-// manual approach (create package.json in the root, create properties etc)
-// npm init (step by step, press enter to skip)
-// npm init -y (everything default)
-
-const _ = require('lodash');
-
-const items = [1,[2,[3,[4]]]]
-
-const newItems = _.flattenDeep(items);
-console.log(newItems);
+app.listen(5000,()=>{
+  console.log('Server is listening on port 5000....')
+})
